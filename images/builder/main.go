@@ -160,8 +160,14 @@ func getExtraSubs(o options) map[string]string {
 	subs := map[string]string{}
 	for _, e := range envs {
 		e = strings.TrimSpace(e)
-		if e != "" {
-			subs[e] = os.Getenv(e)
+		if e == "" {
+			continue
+		}
+		pair := strings.Split(e, "=")
+		if len(pair) > 1 {
+			subs[pair[0]] = pair[1]
+		} else {
+			subs[pair[0]] = ""
 		}
 	}
 	return subs
